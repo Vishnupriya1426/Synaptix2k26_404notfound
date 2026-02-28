@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroLease | Trusted Agricultural Land Leasing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Custom styling for Google Translate dropdown to match Tailwind UI */
+        .goog-te-combo {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #16a34a;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2316a34a'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem 1rem;
+        }
+
+        .goog-te-combo:hover {
+            background-color: #e5e7eb;
+            border-color: #16a34a;
+        }
+
+        .goog-te-combo:focus {
+            outline: none;
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+        }
+
+        /* Hide Google Translate top banner and popups */
+        body {
+            top: 0px !important;
+        }
+
+        .goog-te-banner-frame,
+        iframe.skiptranslate,
+        iframe.VIpgJd-ZVi9od-ORHb-OEVmcd {
+            display: none !important;
+        }
+
+        /* Hide "Powered by Google" text and logo */
+        .goog-te-gadget {
+            font-size: 0px !important;
+            color: transparent !important;
+        }
+
+        .goog-te-gadget span,
+        .goog-te-gadget a {
+            display: none !important;
+        }
+
+        .goog-tooltip {
+            display: none !important;
+        }
+
+        .goog-tooltip:hover {
+            display: none !important;
+        }
+
+        .goog-text-highlight {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            cursor: inherit !important;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen"
+    style="background-image: url('images/hero-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.location.href='index.html'">
+                    <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="ml-2 text-2xl font-bold text-green-800">AgroLease</span>
+                </div>
+                <div class="flex space-x-4 items-center">
+                    <!-- Google Translate Widget Container -->
+                    <div id="google_translate_element" class="mr-4"></div>
+
+                    <a href="login.html"
+                        class="guest-link text-gray-600 hover:text-green-600 px-3 py-2 rounded-md font-medium">Login</a>
+                    <a href="signup.html"
+                        class="guest-link bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-md font-medium transition-colors">Sign
+                        Up</a>
+
+                    <span id="user-greeting" class="auth-link hidden text-gray-700 py-2 font-medium"></span>
+                    <a href="#" id="dashboard-link"
+                        class="auth-link hidden text-green-600 hover:text-green-800 px-3 py-2 rounded-md font-medium">Dashboard</a>
+                    <a href="#" id="logout-btn"
+                        class="auth-link hidden text-red-500 hover:text-red-700 px-3 py-2 rounded-md font-medium">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="max-w-4xl mx-auto text-center glass-card rounded-2xl p-10 md:p-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
+                The Trusted Agricultural <br> <span class="text-green-600">Land Leasing Platform</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Connecting landowners with responsible farmers and businesses. Lease land transparently, securely, and
+                efficiently to grow your agricultural future.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="signup.html?role=tenant"
+                    class="bg-green-600 text-white font-semibold py-4 px-8 rounded-lg shadow-lg hover:bg-green-700 transition transform hover:-translate-y-1 text-lg">
+                    I am a Farmer / Tenant
+                </a>
+                <a href="signup.html?role=landlord"
+                    class="bg-white text-green-700 border-2 border-green-600 font-semibold py-4 px-8 rounded-lg shadow-lg hover:bg-green-50 transition transform hover:-translate-y-1 text-lg">
+                    I have Land to Lease
+                </a>
+            </div>
+        </div>
+
+        <!-- AI Feature moved to floating button -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] relative z-20">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">&copy; 2026 AgroLease. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+
+    <!-- Floating AI Button & Modal -->
+    <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+        <!-- AI Panel Setup (Hidden by Default) -->
+        <div id="ai-modal-panel"
+            class="hidden mb-4 w-[90vw] max-w-sm glass-card rounded-2xl p-5 shadow-2xl transition-all duration-300 transform scale-95 opacity-0 origin-bottom-right">
+            <div class="flex justify-between items-center mb-4">
+                <span
+                    class="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center">
+                    <svg class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    AI Valuator
+                </span>
+                <button onclick="toggleAIModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <select id="ai-region"
+                    class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="" disabled>Select Region / State</option>
+                    <option value="ap">Andhra Pradesh (Coastal)</option>
+                    <option value="ts" selected>Telangana</option>
+                    <option value="mh">Maharashtra (Western)</option>
+                    <option value="up">Uttar Pradesh</option>
+                    <option value="ka">Karnataka</option>
+                </select>
+
+                <input type="number" id="ai-acreage" min="1" max="500" placeholder="Number of Acres" value="5"
+                    class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+
+                <button onclick="calculateAIEstimate()"
+                    class="w-full bg-gradient-to-r from-green-600 to-green-500 text-white font-bold py-2 rounded-lg text-sm shadow hover:from-green-700 hover:to-green-600 transition duration-200">
+                    Get Estimate
+                </button>
+            </div>
+
+            <div id="ai-result-panel" class="mt-4 p-3 rounded-lg bg-green-50 border border-green-200 text-center">
+                <p class="text-[10px] font-semibold text-green-800 uppercase">Estimated Value</p>
+                <p class="text-2xl font-extrabold text-green-700 mt-1" id="ai-price-result">₹1,13,500 <span
+                        class="text-sm font-medium text-green-600">/ yr</span></p>
+
+                <div id="ai-suggestions-box"
+                    class="mt-3 text-left bg-white p-2 rounded border border-green-100 shadow-sm text-xs">
+                    <p class="font-bold text-green-800 mb-1 border-b pb-1 border-gray-100 flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        AI Insights
+                    </p>
+                    <ul class="space-y-1 text-gray-600 list-disc pl-4" id="ai-suggestions-list">
+                        <li>Red sandy loam soil detected.</li>
+                        <li>Best suited for Cotton or Maize.</li>
+                        <li>Groundwater level: Moderate</li>
+                    </ul>
+
+                    <p class="font-bold text-blue-800 mt-3 mb-1 border-b pb-1 border-gray-100 flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        Local Tenant Matches
+                    </p>
+                    <div id="ai-tenants-list" class="space-y-2 mt-2">
+                        <div class="flex items-center">
+                            <div
+                                class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-[9px] mr-2 shadow-sm">
+                                VR</div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-700 leading-none">Venkat Rao</p>
+                                <p class="text-[9px] text-gray-400 mt-1 leading-none">Looking for 4-6 Acres • ⭐ 4.9</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-[9px] mr-2 shadow-sm">
+                                SR</div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-700 leading-none">Srinivasa Reddy</p>
+                                <p class="text-[9px] text-gray-400 mt-1 leading-none">Looking for 2-5 Acres • ⭐ 4.8</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-[10px] text-gray-500 mt-2 border-t pt-1 border-green-200">94.2% AI Accuracy based on
+                    recent trends</p>
+            </div>
+        </div>
+
+        <!-- Floating Button -->
+        <button onclick="toggleAIModal()"
+            class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-full p-4 shadow-[0_8px_30px_rgb(0,0,0,0.3)] transform transition hover:scale-105 flex items-center justify-center group">
+            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <span
+                class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-bold shadow-sm">
+                AI Valuator
+            </span>
+        </button>
+    </div>
+
+    <!-- AI Script -->
+    <script>
+        function toggleAIModal() {
+            const panel = document.getElementById('ai-modal-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                setTimeout(() => {
+                    panel.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            } else {
+                panel.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    panel.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function calculateAIEstimate() {
+            const region = document.getElementById('ai-region').value;
+            const acreage = document.getElementById('ai-acreage').value;
+            const resultPanel = document.getElementById('ai-result-panel');
+            const priceText = document.getElementById('ai-price-result');
+            const suggestionsList = document.getElementById('ai-suggestions-list');
+
+            if (!region || !acreage || acreage < 1) {
+                window.showToast("Please enter region and acres.", "error");
+                return;
+            }
+
+            const rates = { 'ap': 25000, 'ts': 22000, 'mh': 35000, 'up': 18000, 'ka': 28000 };
+            const baseRate = rates[region];
+            const finalPrice = Math.floor((baseRate * acreage) * (1 + (Math.random() * 0.15)));
+
+            const formattedPrice = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(finalPrice);
+
+            // Dummy suggestions based on region
+            const suggestions = {
+                'ap': ['Rich alluvial soil detected.', 'High yield expected for Paddy.', 'Irrigation access: Excellent'],
+                'ts': ['Red sandy loam soil detected.', 'Best suited for Cotton or Maize.', 'Groundwater level: Moderate'],
+                'mh': ['Black cotton soil identified.', 'Optimal for Sugarcane or Cotton.', 'Rain-fed area: High dependence'],
+                'up': ['Fertile plain land suitable.', 'Excellent for Wheat and Sugarcane.', 'High historical yield rate.'],
+                'ka': ['Red soil with medium fertility.', 'Great for Ragi and Groundnut.', 'Recent rainfall: Normal']
+            };
+
+            const regionSuggestions = suggestions[region] || ['Standard soil properties.', 'Multiple crop suitability.', 'Check local water access.'];
+
+            suggestionsList.innerHTML = regionSuggestions.map(s => `<li>${s}</li>`).join('');
+
+            // Dummy tenants mapping based on region
+            const tenants = {
+                'ap': [
+                    { init: 'MR', name: 'Mohan Raju', need: 'Looking for 3-5 Acres', bg: 'bg-green-100 text-green-600' },
+                    { init: 'SK', name: 'Suresh Kumar', need: 'Looking for 10+ Acres', bg: 'bg-blue-100 text-blue-600' }
+                ],
+                'ts': [
+                    { init: 'VR', name: 'Venkat Rao', need: 'Looking for 4-6 Acres', bg: 'bg-blue-100 text-blue-600' },
+                    { init: 'SR', name: 'Srinivasa Reddy', need: 'Looking for 2-5 Acres', bg: 'bg-green-100 text-green-600' }
+                ],
+                'mh': [
+                    { init: 'PP', name: 'Prakash Patil', need: 'Looking for 5-8 Acres', bg: 'bg-purple-100 text-purple-600' },
+                    { init: 'AK', name: 'Amit Kadam', need: 'Looking for 2-4 Acres', bg: 'bg-orange-100 text-orange-600' }
+                ]
+            };
+
+            const regionTenants = tenants[region] || [
+                { init: 'RK', name: 'Raj Kumar', need: 'Looking for 5 Acres', bg: 'bg-indigo-100 text-indigo-600' },
+                { init: 'AY', name: 'Anil Yadav', need: 'Looking for 10 Acres', bg: 'bg-teal-100 text-teal-600' }
+            ];
+
+            document.getElementById('ai-tenants-list').innerHTML = regionTenants.map(t => `
+                <div class="flex items-center">
+                    <div class="w-6 h-6 rounded-full ${t.bg} flex items-center justify-center font-bold text-[9px] mr-2 shadow-sm">${t.init}</div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-700 leading-none">${t.name}</p>
+                        <p class="text-[9px] text-gray-400 mt-1 leading-none">${t.need} • ⭐ 4.${Math.floor(Math.random() * 3) + 7}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            resultPanel.classList.remove('hidden');
+            priceText.innerHTML = `${formattedPrice} <span class="text-sm font-medium text-green-600">/ yr</span>`;
+        }
+    </script>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,te,ta,kn',
+                autoDisplay: false,
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

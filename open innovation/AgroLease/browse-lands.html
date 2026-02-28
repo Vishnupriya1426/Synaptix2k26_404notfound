@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Lands | AgroLease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="flex flex-col min-h-screen"
+    style="background-image: url('images/rice-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <nav class="bg-green-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 justify-between">
+            <div class="flex items-center">
+                <button onclick="window.history.back()" class="text-white hover:text-green-200 mr-4 flex items-center">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </button>
+                <span class="text-xl font-bold tracking-wide">Browse Available Lands</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Filters Section -->
+    <div class="bg-white border-b shadow-sm sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <form id="filter-form" class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="sr-only">Search Location</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" id="filter-location"
+                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-green-500 focus:ring-1 focus:ring-green-500 sm:text-sm"
+                            placeholder="Search by Location...">
+                    </div>
+                </div>
+                <!-- Filtering logic is simplified for hackathonMVP, focusing on basic filters -->
+            </form>
+        </div>
+    </div>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <div id="browse-loading" class="text-center py-12 hidden">
+            <div class="loader mx-auto h-10 w-10 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin">
+            </div>
+            <p class="mt-4 text-gray-500">Finding available lands...</p>
+        </div>
+
+        <div id="browse-empty" class="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100 hidden">
+            <h3 class="text-lg font-medium text-gray-900">No lands found</h3>
+            <p class="mt-1 text-gray-500">There are currently no lands available matching your criteria.</p>
+        </div>
+
+        <div id="browse-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Data populated via JS -->
+        </div>
+
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/tenant.js"></script>
+</body>
+
+</html>

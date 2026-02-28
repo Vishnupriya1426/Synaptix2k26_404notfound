@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Dashboard | AgroLease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .hidden-tab {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen"
+    style="background-image: url('images/rice-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <nav class="bg-green-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+            <div class="flex items-center">
+                <span class="mr-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </span>
+                <span class="text-xl font-bold tracking-wide">AgroLease <span class="text-green-300 font-normal">|
+                        Landowner</span></span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="user-greeting" class="font-medium text-sm hidden sm:block"></span>
+                <button id="logout-btn"
+                    class="text-red-300 hover:text-white font-medium text-sm px-3 py-1 border border-red-400 hover:border-white rounded transition">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sub Navigation for Dashboard -->
+    <div class="bg-white border-b shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-8 overflow-x-auto">
+            <button onclick="switchTab('my-lands')" id="tab-my-lands"
+                class="text-green-700 border-b-2 border-green-700 py-4 px-2 font-medium text-sm sm:text-base whitespace-nowrap">My
+                Lands</button>
+            <button onclick="switchTab('requests')" id="tab-requests"
+                class="text-gray-500 hover:text-gray-700 border-b-2 border-transparent hover:border-gray-300 py-4 px-2 font-medium text-sm sm:text-base whitespace-nowrap">Lease
+                Requests</button>
+            <button onclick="switchTab('recommendations')" id="tab-recommendations"
+                class="text-amber-600 hover:text-amber-700 border-b-2 border-transparent hover:border-amber-300 py-4 px-2 font-medium text-sm sm:text-base whitespace-nowrap flex items-center bg-amber-50 rounded-t-lg ml-auto px-4">
+                <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                AI Suggestions
+            </button>
+        </div>
+    </div>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Tab 1: My Lands -->
+        <div id="content-my-lands" class="space-y-6">
+            <div
+                class="flex justify-between items-center bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">My Land Listings</h2>
+                    <p class="text-gray-500 text-sm mt-1">Manage all your agricultural lands available for lease.</p>
+                </div>
+                <button onclick="window.location.href='add-land.html'"
+                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition flex items-center">
+                    <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add New Land
+                </button>
+            </div>
+
+            <div id="lands-loading" class="text-center py-12 hidden">
+                <div
+                    class="loader mx-auto h-10 w-10 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin">
+                </div>
+                <p class="mt-4 text-gray-500">Loading your lands...</p>
+            </div>
+
+            <div id="lands-empty" class="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100 hidden">
+                <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900">No lands listed yet</h3>
+                <p class="mt-1 text-gray-500">Get started by adding your first agricultural land for lease.</p>
+                <button onclick="window.location.href='add-land.html'"
+                    class="mt-6 text-green-600 font-medium hover:text-green-800">
+                    + Add Land Now
+                </button>
+            </div>
+
+            <div id="lands-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Data populated via JS -->
+            </div>
+        </div>
+
+        <!-- Tab 2: Lease Requests -->
+        <div id="content-requests" class="hidden-tab space-y-6">
+            <div class="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-800">Lease Requests</h2>
+                <p class="text-gray-500 text-sm mt-1">Review farmers who want to lease your land.</p>
+            </div>
+
+            <div id="requests-loading" class="text-center py-12 hidden">
+                <div
+                    class="loader mx-auto h-10 w-10 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin">
+                </div>
+                <p class="mt-4 text-gray-500">Loading requests...</p>
+            </div>
+
+            <div id="requests-empty"
+                class="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100 hidden">
+                <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900">No requests yet</h3>
+                <p class="mt-1 text-gray-500">When a farmer requests to lease your land, it will appear here.</p>
+            </div>
+
+            <div id="requests-container" class="space-y-4">
+                <!-- Data populated via JS -->
+            </div>
+        </div>
+
+        <!-- Tab 3: AI Recommendations -->
+        <div id="content-recommendations" class="hidden-tab space-y-6">
+            <div
+                class="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-xl shadow-sm border border-amber-100 flex items-start">
+                <div class="bg-amber-100 p-3 rounded-full mr-4">
+                    <svg class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Smart Tenant Match</h2>
+                    <p class="text-gray-600 text-sm mt-1">Our system analyzes local farmers' experience levels and
+                        crop specialties to recommend the best tenants for your land *before* they even apply.</p>
+                </div>
+            </div>
+
+            <div id="recommendations-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Data populated via JS -->
+                <div class="text-center py-12 col-span-full">
+                    <div
+                        class="loader mx-auto h-10 w-10 border-4 border-gray-200 border-t-amber-500 rounded-full animate-spin">
+                    </div>
+                    <p class="mt-4 text-gray-500">Scanning local farming profiles...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/landlord.js"></script>
+    <script>
+        function switchTab(tab) {
+            document.getElementById('content-my-lands').classList.add('hidden-tab');
+            document.getElementById('content-requests').classList.add('hidden-tab');
+            document.getElementById('content-recommendations').classList.add('hidden-tab');
+
+            // Reset tab styles
+            const normalTabStyle = "text-gray-500 hover:text-gray-700 border-b-2 border-transparent hover:border-gray-300 py-4 px-2 font-medium text-sm sm:text-base whitespace-nowrap";
+            document.getElementById('tab-my-lands').className = normalTabStyle;
+            document.getElementById('tab-requests').className = normalTabStyle;
+
+            // Highlight selected
+            document.getElementById(`content-${tab}`).classList.remove('hidden-tab');
+
+            if (tab === 'recommendations') {
+                // Do not override recommendations custom styling heavily
+            } else {
+                document.getElementById(`tab-${tab}`).className = "text-green-700 border-b-2 border-green-700 py-4 px-2 font-medium text-sm sm:text-base whitespace-nowrap";
+            }
+        }
+    </script>
+</body>
+
+</html>

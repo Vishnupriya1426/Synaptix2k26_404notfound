@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Details | AgroLease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="flex flex-col min-h-screen"
+    style="background-image: url('images/rice-bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <nav class="bg-green-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
+            <button onclick="window.history.back()" class="text-white hover:text-green-200 mr-4 flex items-center">
+                <svg class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back
+            </button>
+            <span class="text-xl font-bold tracking-wide">Land details</span>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <div id="details-loading" class="text-center py-20">
+            <div class="loader mx-auto h-12 w-12 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin">
+            </div>
+            <p class="mt-4 text-gray-500">Loading details...</p>
+        </div>
+
+        <div id="details-container"
+            class="hidden bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="h-64 sm:h-96 w-full bg-gray-200 relative">
+                <img id="detail-image" src="" alt="Land image" class="w-full h-full object-cover">
+                <div class="absolute top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg">
+                    ₹<span id="detail-price"></span> / year
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+                <h1 id="detail-title" class="text-3xl font-extrabold text-gray-900 mb-2"></h1>
+
+                <div class="flex items-center text-gray-600 mb-4 flex-wrap gap-y-3">
+                    <svg class="h-5 w-5 mr-1.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span id="detail-location" class="text-lg"></span>
+                    <span class="mx-3 text-gray-300 hidden sm:inline">|</span>
+                    <svg class="h-5 w-5 mr-1.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                    <span id="detail-size" class="text-lg font-semibold mr-1"></span> Acres
+                </div>
+
+                <div class="flex flex-wrap gap-2 mb-6" id="badges-container">
+                    <span id="badge-soil"
+                        class="bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full font-medium hidden border border-yellow-200"></span>
+                    <span id="badge-profit"
+                        class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full font-medium hidden border border-blue-200">🤝
+                        Profit Percentage Split Available</span>
+                </div>
+
+                <div class="border-t border-gray-100 pt-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Description</h2>
+                    <p id="detail-description" class="text-gray-600 leading-relaxed whitespace-pre-wrap"></p>
+                </div>
+
+                <div class="bg-green-50 rounded-xl p-5 mb-8 border border-green-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-green-800 font-semibold uppercase tracking-wider mb-1">Land Owner</p>
+                        <p id="owner-name" class="font-bold text-gray-900">Loading...</p>
+                    </div>
+                </div>
+
+                <button id="request-lease-btn"
+                    class="w-full bg-green-600 text-white font-bold py-4 px-4 rounded-xl hover:bg-green-700 transition duration-200 shadow-lg text-lg flex justify-center items-center">
+                    Request Lease
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/tenant.js"></script>
+</body>
+
+</html>

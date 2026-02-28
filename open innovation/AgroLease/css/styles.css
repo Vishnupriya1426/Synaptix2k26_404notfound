@@ -1,0 +1,47 @@
+:root {
+  --primary: #2e7d32;   /* Farmer Green */
+  --primary-dark: #1b5e20;
+  --secondary: #fbc02d; /* Harvest Yellow */
+  --background: #f1f8e9; /* Light Green Tint */
+  --text-dark: #1f2937;
+  --text-light: #4b5563;
+  --white: #ffffff;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--text-dark);
+}
+
+/* Custom Utilities */
+.bg-farmer-pattern {
+  background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M54.627 0l.83.83-54.627 54.627-.83-.83z" fill="%232e7d32" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
+}
+
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+}

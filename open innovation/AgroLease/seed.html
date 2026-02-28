@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Database | AgroLease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <nav class="bg-green-700 text-white shadow-md p-4">
+        <div class="max-w-7xl mx-auto flex items-center">
+            <span class="text-xl font-bold tracking-wide">AgroLease <span class="text-green-300 font-normal">| Hackathon
+                    Tools</span></span>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div class="bg-white rounded-xl shadow-lg p-8 max-w-lg w-full text-center border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Add Sample Data</h2>
+            <p class="text-gray-600 mb-8">
+                Clicking the button below will instantly populate your Firestore database with **fake landlords, fake
+                tenants, beautiful land listings, and sample requests**.
+                <br><br>
+                This will give your project plenty of data for the hackathon judges!
+            </p>
+
+            <button id="seed-btn"
+                class="w-full bg-green-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-green-700 transition duration-200 shadow-md flex justify-center items-center text-lg">
+                Populate Database Now
+            </button>
+
+            <div id="status"
+                class="mt-6 text-sm font-medium text-gray-700 space-y-2 hidden text-left bg-gray-50 p-4 rounded-lg border">
+                <p id="s-users">⏳ Creating Mock Users...</p>
+                <p id="s-lands">⏳ Creating Land Listings...</p>
+                <p id="s-requests">⏳ Creating Sample Requests...</p>
+                <p id="s-done" class="text-green-600 font-bold hidden mt-2">✅ Database Population Complete! You can
+                    close this page.</p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { db } from "./js/firebase-config.js";
+        import { collection, doc, setDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // MOCK DATA
+        const mockUsers = [
+            // 10 Landlords
+            { uid: "mock-landlord-1", name: "Ramesh Patel", email: "ramesh.patel@example.com", role: "landlord" },
+            { uid: "mock-landlord-2", name: "Suresh Kumar", email: "suresh.kumar@example.com", role: "landlord" },
+            { uid: "mock-landlord-3", name: "Anita Desai", email: "anita.desai@example.com", role: "landlord" },
+            { uid: "mock-landlord-4", name: "Balram Singh", email: "balram.singh@example.com", role: "landlord" },
+            { uid: "mock-landlord-5", name: "Kiran Rao", email: "kiran.rao@example.com", role: "landlord" },
+            { uid: "mock-landlord-6", name: "Narayana Murthy", email: "narayana.m@example.com", role: "landlord" },
+            { uid: "mock-landlord-7", name: "Meena Gupta", email: "meena.gupta@example.com", role: "landlord" },
+            { uid: "mock-landlord-8", name: "Prakash Sharma", email: "prakash.sharma@example.com", role: "landlord" },
+            { uid: "mock-landlord-9", name: "Sunil Verma", email: "sunil.verma@example.com", role: "landlord" },
+            { uid: "mock-landlord-10", name: "Rekha Reddy", email: "rekha.reddy@example.com", role: "landlord" },
+
+            // 10 Tenants
+            { uid: "mock-tenant-1", name: "Arjun Singh", email: "arjun.singh@example.com", role: "tenant", rating: 4.8, experience: "12 years" },
+            { uid: "mock-tenant-2", name: "Ravi Yadav", email: "ravi.yadav@example.com", role: "tenant", rating: 4.5, experience: "8 years" },
+            { uid: "mock-tenant-3", name: "Lakshmi Bai", email: "lakshmi.bai@example.com", role: "tenant", rating: 4.9, experience: "15 years" },
+            { uid: "mock-tenant-4", name: "Mohan Das", email: "mohan.das@example.com", role: "tenant", rating: 4.2, experience: "5 years" },
+            { uid: "mock-tenant-5", name: "Gopal Krishnan", email: "gopal.krishnan@example.com", role: "tenant", rating: 4.7, experience: "10 years" },
+            { uid: "mock-tenant-6", name: "Sita Ram", email: "sita.ram@example.com", role: "tenant", rating: 4.6, experience: "7 years" },
+            { uid: "mock-tenant-7", name: "Vikram Seth", email: "vikram.seth@example.com", role: "tenant", rating: 4.1, experience: "3 years" },
+            { uid: "mock-tenant-8", name: "Devi Prasad", email: "devi.prasad@example.com", role: "tenant", rating: 4.4, experience: "6 years" },
+            { uid: "mock-tenant-9", name: "Harish Chandra", email: "harish.chandra@example.com", role: "tenant", rating: 5.0, experience: "20 years" },
+            { uid: "mock-tenant-10", name: "Kamala Iyer", email: "kamala.iyer@example.com", role: "tenant", rating: 4.3, experience: "4 years" }
+        ];
+
+        const mockLands = [
+            { ownerId: "mock-landlord-1", title: "10 Acres Fertile Land near River", location: "Palanpur, Gujarat", size: 10, price: 80000, description: "Very fertile black soil, perfect for cotton or wheat. Has 24/7 borewell water supply and direct road access.", imageUrl: "https://images.unsplash.com/photo-1589923188900-85dae523342b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-2", title: "5 Acres Mango Orchard", location: "Ratnagiri, Maharashtra", size: 5, price: 150000, description: "Mature alphonso mango trees, looking for someone to manage the harvest for the upcoming season.", imageUrl: "https://images.unsplash.com/photo-1518342417772-23c316af0568?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-3", title: "15 Acres Ready for Paddy", location: "Godavari Basin, AP", size: 15, price: 120000, description: "Excellent irrigation facilities from the canal. Soil is prepared for paddy cultivation.", imageUrl: "https://images.unsplash.com/photo-1586771107445-d3afbf0a6ddb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-4", title: "2 Acres Organic Vegetable Farm", location: "Pune Outskirts", size: 2, price: 40000, description: "Certified organic land suitable for leafy greens and seasonal vegetables. Has a small storage shed and drip irrigation lines laid out.", imageUrl: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-5", title: "8 Acres Wheat Field", location: "Ludhiana, Punjab", size: 8, price: 95000, description: "Prime agricultural land currently ready for rabi season crops. Highly mechanized and accessible by heavy machinery.", imageUrl: "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-6", title: "20 Acres Sugarcane Land", location: "Meerut, UP", size: 20, price: 200000, description: "Flat land near the sugar mill. Excellent soil fertility and strong water supply from local canals.", imageUrl: "https://images.unsplash.com/photo-1586611364379-3d14bdf7383f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-7", title: "12 Acres Cotton Farm", location: "Nagpur, Maharashtra", size: 12, price: 110000, description: "High-yield black cotton soil perfectly suited for long-staple cotton varieties.", imageUrl: "https://images.unsplash.com/photo-1592982537447-6f228227b9c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-8", title: "3 Acres Apple Orchard", location: "Shimla, HP", size: 3, price: 250000, description: "High density apple orchard yielding premium fruit. Looking for experienced orchard managers.", imageUrl: "https://images.unsplash.com/photo-1579705745173-0498eb18b3d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-9", title: "7 Acres Spices Plantation", location: "Idukki, Kerala", size: 7, price: 180000, description: "Mixed plantation of cardamom and pepper in pristine conditions.", imageUrl: "https://images.unsplash.com/photo-1627926867623-dfd54ba4e9c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { ownerId: "mock-landlord-10", title: "25 Acres Barren Land - Solar/Farming", location: "Jaisalmer, Rajasthan", size: 25, price: 50000, description: "Arid land perfect for drought-resistant crops or setting up agrisolar infrastructure.", imageUrl: "https://images.unsplash.com/photo-1533667500331-50eade9858ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+        ];
+
+        document.getElementById('seed-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('seed-btn');
+            const statusDiv = document.getElementById('status');
+
+            btn.innerHTML = `<div class="loader mx-auto h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>`;
+            btn.disabled = true;
+            statusDiv.classList.remove('hidden');
+
+            try {
+                // 1. ADD USERS
+                for (let u of mockUsers) {
+                    await setDoc(doc(db, "users", u.uid), {
+                        uid: u.uid,
+                        name: u.name,
+                        email: u.email,
+                        role: u.role,
+                        rating: u.rating || null,
+                        experience: u.experience || null,
+                        createdAt: serverTimestamp()
+                    });
+                }
+                document.getElementById('s-users').innerText = '✅ Created 20 Mock Users (10 Landlords, 10 Tenants)';
+
+                // 2. ADD LANDS
+                let landRefs = [];
+                for (let l of mockLands) {
+                    const docRef = await addDoc(collection(db, "lands"), {
+                        ownerId: l.ownerId,
+                        title: l.title,
+                        location: l.location,
+                        size: l.size,
+                        price: l.price,
+                        description: l.description,
+                        imageUrl: l.imageUrl,
+                        createdAt: serverTimestamp()
+                    });
+                    landRefs.push({ id: docRef.id, ...l });
+                }
+                document.getElementById('s-lands').innerText = '✅ Created 10 Land Listings';
+
+                // 3. ADD REQUESTS (Creates a few overlapping requests for demo purposes)
+                const mockRequests = [
+                    { landIndex: 0, tenantIndex: 10, status: 'pending' },
+                    { landIndex: 0, tenantIndex: 11, status: 'accepted' },
+                    { landIndex: 1, tenantIndex: 12, status: 'pending' },
+                    { landIndex: 2, tenantIndex: 13, status: 'rejected' },
+                    { landIndex: 3, tenantIndex: 14, status: 'pending' },
+                    { landIndex: 4, tenantIndex: 15, status: 'pending' },
+                    { landIndex: 5, tenantIndex: 16, status: 'pending' },
+                    { landIndex: 6, tenantIndex: 17, status: 'pending' },
+                    { landIndex: 7, tenantIndex: 18, status: 'pending' },
+                    { landIndex: 8, tenantIndex: 19, status: 'pending' }
+                ];
+
+                for (let req of mockRequests) {
+                    const land = landRefs[req.landIndex];
+                    const tenant = mockUsers[req.tenantIndex]; // Tenants start at index 10 in mockUsers array
+
+                    await addDoc(collection(db, "requests"), {
+                        landId: land.id,
+                        landTitle: land.title,
+                        landlordId: land.ownerId,
+                        tenantId: tenant.uid,
+                        tenantName: tenant.name,
+                        tenantEmail: tenant.email,
+                        tenantRating: tenant.rating,
+                        tenantExperience: tenant.experience,
+                        status: req.status,
+                        createdAt: serverTimestamp() // We'll just use current timestamp for simplicity
+                    });
+                }
+                document.getElementById('s-requests').innerText = '✅ Created 10 Sample Requests';
+
+                // DONE
+                btn.innerHTML = `Successfully Seeded Database!`;
+                btn.classList.replace('bg-green-600', 'bg-gray-500');
+                document.getElementById('s-done').classList.remove('hidden');
+
+                // Important Note: alert the user
+                setTimeout(() => {
+                    alert("Database has been populated successfully! You can now test the app with real-looking data.");
+                }, 500);
+
+            } catch (e) {
+                console.error(e);
+                alert("An error occurred: " + e.message);
+                btn.innerHTML = `Error. Try Again.`;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
